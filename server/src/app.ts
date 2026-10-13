@@ -1,5 +1,8 @@
 import express from "express";
+import { z } from "zod";
 import { prisma } from "./lib/prisma.js";
+import { validateBody } from "./middleware/validate.js";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
 export function createApp() {
   const app = express();
@@ -14,6 +17,10 @@ export function createApp() {
       res.status(503).json({ status: "error", database: "disconnected" });
     }
   });
+
+  // These two must come LAST
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return app;
 }

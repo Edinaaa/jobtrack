@@ -1,0 +1,8 @@
+@baseUrl = http://localhost:3000/api
+
+### Health check
+GET {{baseUrl}}/health
+
+### Unknown route → 404
+GET {{baseUrl}}/does-not-exist
+
