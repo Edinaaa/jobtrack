@@ -1,13 +1,18 @@
 import express from "express";
+import { prisma } from "./lib/prisma.js";
 
 export function createApp() {
   const app = express();
 
-  // Parse JSON request bodies (e.g. from POST requests) into req.body
   app.use(express.json());
 
-  app.get("/api/health", (_req, res) => {
-    res.json({ status: "healthy" });
+  app.get("/api/health", async (_req, res) => {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      res.json({ status: "ok", database: "connected" });
+    } catch {
+      res.status(503).json({ status: "error", database: "disconnected" });
+    }
   });
 
   return app;
