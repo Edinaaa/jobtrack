@@ -1,4 +1,7 @@
+
+import { authRouter } from "./modules/auth/auth.routes.js";
 import express from "express";
+
 import { z } from "zod";
 import { prisma } from "./lib/prisma.js";
 import { validateBody } from "./middleware/validate.js";
@@ -17,7 +20,7 @@ export function createApp() {
       res.status(503).json({ status: "error", database: "disconnected" });
     }
   });
-
+  app.use("/api/auth", authRouter);
   // These two must come LAST
   app.use(notFoundHandler);
   app.use(errorHandler);

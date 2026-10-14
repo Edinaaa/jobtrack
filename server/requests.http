@@ -2,7 +2,35 @@
 
 ### Health check
 GET {{baseUrl}}/health
+### Register: success → 201
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
 
+{
+  "name": "Ana Test",
+  "email": "  Ana@Example.COM ",
+  "password": "supersecret123"
+}
+
+### Register: same email again → 409
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Ana Again",
+  "email": "ana@example.com",
+  "password": "anotherpassword"
+}
+
+### Register: invalid input → 400
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "not-an-email",
+  "password": "short"
+}
 ### Unknown route → 404
 GET {{baseUrl}}/does-not-exist
 
